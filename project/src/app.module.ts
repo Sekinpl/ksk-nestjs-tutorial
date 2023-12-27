@@ -4,6 +4,8 @@ import { AppService } from './app.service';
 import { ApiModule } from './api/api.module';
 import * as winston from 'winston';
 import { utilities as nestWinstonModuleUtilities, WinstonModule, WINSTON_MODULE_NEST_PROVIDER } from 'nest-winston';
+import { ThrottlerGuard, ThrottlerModule } from '@nestjs/throttler';
+import { APP_GUARD } from '@nestjs/core';
 
 @Module({
   imports: [
@@ -17,9 +19,19 @@ import { utilities as nestWinstonModuleUtilities, WinstonModule, WINSTON_MODULE_
         }),
       ],
     }),
+    ThrottlerModule.forRoot([{
+      ttl: 60000,
+      limit: 10,
+    }]),
     ApiModule
   ],
   controllers: [AppController],
-  providers: [AppService],
+  providers: [
+    {
+      provide: APP_GUARD,
+      useClass: ThrottlerGuard
+    },
+    AppService
+  ],
 })
 export class AppModule { }
