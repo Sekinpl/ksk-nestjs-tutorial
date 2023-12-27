@@ -13,7 +13,7 @@ async function bootstrap() {
         new winston.transports.Console({
           format: winston.format.combine(
             winston.format.timestamp(),
-            nestWinstonModuleUtilities.format.nestLike('MelodyWeb-Backend', { prettyPrint: true, colors: true }),
+            nestWinstonModuleUtilities.format.nestLike('ksk-nestjs-tutorial', { prettyPrint: true, colors: true }),
           ),
         }),
         // 아래 부분은 모두 로그를 기록하고 싶을때 사용하는 코드이다. 만약에 로그를 기록하고 싶다면 주석을 해제하면 된다.
